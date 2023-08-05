@@ -12,13 +12,22 @@ import DialogueEditor from './components/center/DialogueEditor';
 
 import Option from './components/right/Options';
 
-import chapters from './data/chapters';
+import testChapters from './data/chapters';
 
 function App() {
     const [language, setLanguage] = useState("EN");
+    const [chapters, setChapters] = useState(testChapters);
     const [chapter, setChapter] = useState("");
     const [dialogue, setDialogue] = useState("");
     const [dialogueIndex, setDialogueIndex] = useState(0);
+
+    const updateDialog = (index, entry) => {
+        let copy = {...chapters};
+        console.log("ENTRY: " + JSON.stringify(entry, null, 5));
+        console.log("REPLACING: " + JSON.stringify(copy[chapter].dialogues[dialogue].dialogue[index], null, 5));
+        copy[chapter].dialogues[dialogue].dialogue[index] = entry;
+        setChapters(copy);
+    }
 
     return (
         <div className="container">
@@ -35,7 +44,7 @@ function App() {
                 <DialogueMeta dialogueKey={dialogue} dialogue={chapters[chapter]?.dialogues[dialogue]} />
                 <TextBox dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
                 <Characters dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
-                <DialogueEditor dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogIndexChange={setDialogueIndex} />
+                <DialogueEditor dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogIndexChange={setDialogueIndex} onDialogChange={updateDialog} />
             </div>
             <div className="right">
                 <Option onChange={() => {}} />

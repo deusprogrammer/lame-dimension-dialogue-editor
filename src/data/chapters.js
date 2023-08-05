@@ -248,10 +248,16 @@ const chapters = {
                 dialogue: [
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "left",
@@ -259,10 +265,16 @@ const chapters = {
                     },
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "right",
@@ -274,10 +286,16 @@ const chapters = {
                 dialogue: [
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "left",
@@ -285,10 +303,16 @@ const chapters = {
                     },
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "right",
@@ -300,10 +324,16 @@ const chapters = {
                 dialogue: [
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "left",
@@ -311,10 +341,16 @@ const chapters = {
                     },
                     {
                         positions: {
-                            left: "hazuki",
+                            left: {
+                                name: "hazuki",
+                                override: null
+                            },
                             leftFront: null,
                             rightFront: null,
-                            right: "tanako",
+                            right: {
+                                name: "tanako",
+                                override: null
+                            }
                         },
                         text: "Test",
                         active: "right",

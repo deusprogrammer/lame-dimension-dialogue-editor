@@ -7,6 +7,8 @@ const component = ({dialogue, index}) => {
 
     let {positions} = dialogue.dialogue[index];
 
+    console.log("POSITION: " + JSON.stringify(positions, null, 5));
+
     return (
         <>
             <h2>Positions</h2>

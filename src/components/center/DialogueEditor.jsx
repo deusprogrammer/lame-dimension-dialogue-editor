@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const component = ({dialogue, index, onDialogIndexChange}) => {
+const Component = ({dialogue, index, onDialogIndexChange, onDialogChange}) => {
+    useEffect(() => {
+        console.log("DIALOG UPDATED");
+    }, [dialogue]);
+    
     if (!dialogue) {
         return <></>
     }
+
+    const updateDialog = (field, index, value) => {
+        let entry = {...dialogue.dialogue[index]};
+        entry[field] = value;
+        onDialogChange(index, entry);
+    }
+
+    const dialogCount = dialogue.dialogue.length;
 
     return (
         <div className='dialogue-text'>
@@ -14,13 +26,12 @@ const component = ({dialogue, index, onDialogIndexChange}) => {
                         return (
                             <tr className={`${index === dialogueIndex ? 'selected' : null}`}>
                                 <td>
-                                    <button>Up</button><br />
-                                    <button>Down</button>
+                                    <button tabIndex={dialogueIndex + dialogCount}>Up</button><br />
+                                    <button tabIndex={dialogueIndex + 1 + dialogCount}>Down</button>
                                 </td>
-                                <td><button onClick={() => {onDialogIndexChange(dialogueIndex)}}>Select</button></td>
-                                <td><textarea className='editor-text' value={entry.text}></textarea></td>
-                                <td><textarea className='editor-choice' value={entry.choices}></textarea></td>
-                                <td><button>Add Below</button></td>
+                                <td><textarea tabIndex={dialogueIndex + 1 + dialogCount * 2} className='editor-text' onFocus={() => {onDialogIndexChange(dialogueIndex)}} onChange={({target: {value}}) => {updateDialog('text', dialogueIndex, value)}} value={entry.text}></textarea></td>
+                                <td><textarea tabIndex={dialogueIndex + 1 + dialogCount * 3} className='editor-choice' onFocus={() => {onDialogIndexChange(dialogueIndex)}} onChange={({target: {value}}) => {updateDialog('choices', dialogueIndex, value.split('\n'))}} value={entry.choices?.join('\n')}></textarea></td>
+                                <td><button tabIndex={dialogueIndex + 1 + dialogCount * 4}>Add Below</button></td>
                             </tr>
                         )
                     })}
@@ -30,4 +41,4 @@ const component = ({dialogue, index, onDialogIndexChange}) => {
     )
 }
 
-export default component;
+export default Component;
