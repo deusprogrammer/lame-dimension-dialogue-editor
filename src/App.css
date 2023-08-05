@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  background-color: black;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.container * {
+  box-sizing: border-box;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.container > div {
+    height: 100%;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.center {
+  flex: 1;
+  margin: auto;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 300px;
+  text-align: center;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  text-align: center;
+}
+
+.left table, .right table {
+  margin: auto;
+}
+
+.chapters {
+  height: 33%;
+  max-height: 33%;
+}
+
+.dialogues {
+  height: 33%;
+  max-height: 33%;
+}
+
+.languages {
+
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.dialogue-meta input {
+  text-align: center;
+  background-color: black;
+  color: white;
+  border: none;
+  border-bottom: 1px solid gray;
+  font-size: 2.0rem;
+}
+
+.dialogue-text table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.dialogue-text .editor-text {
+  margin: auto;
+  width: 640px;
+}
+
+.dialogue-text tr {
+  height: 70px;
+}
+
+.dialogue-text textarea {
+  width: 100%;
+  height: 100%;
+}
+
+.dialogue-text button {
+  width: 100%;
+}
+
+.scrolling {
+  overflow-y: scroll;
+  overflow: hidden;
+}
+
+.language-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.language-grid div, .chapters div {
+  cursor: pointer;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+.selectable:hover {
+  background-color: lightgray;
+  color: white;
+}
+
+tr.selected {
+  background-color: gray;
+}
+
+tr.selected:hover {
+  background-color: gray;
+}
+
+.selected {
+  background-color: white;
+  color: black;
+}
+
+.selected:hover {
+  background-color: black;
+  color: white;
 }
