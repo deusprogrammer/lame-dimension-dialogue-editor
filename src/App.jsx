@@ -14,6 +14,8 @@ import Option from './components/right/Options';
 
 import testChapters from './data/chapters';
 
+let dialogCounter = 0;
+
 function App() {
     const [language, setLanguage] = useState("EN");
     const [chapters, setChapters] = useState(testChapters);
@@ -50,6 +52,29 @@ function App() {
         setChapters(copy);
     }
 
+    const createDialog = () => {
+        let newDialogueKey = `dialog${dialogCounter++}`;
+        let copy = {...chapters};
+        copy[chapter].dialogues[newDialogueKey] = {
+            dialogue: [
+                {
+                    positions: {
+                        left: {},
+                        leftFront: {},
+                        rightFront: {},
+                        right: {}
+                    },
+                    text: "",
+                    active: "left",
+                    emote: null
+                }
+            ]
+        };
+        setDialogueIndex(0);
+        setDialogue(newDialogueKey);
+        setChapters(copy);
+    }
+
     return (
         <div className="container">
             <div className="left">
@@ -57,7 +82,7 @@ function App() {
                     onChapterSelect={setChapter} 
                     selectedChapter={chapter}
                     chapters={chapters} />
-                <Dialogues dialogues={chapters[chapter]?.dialogues} selectedDialogue={dialogue} onSelectDialogue={setDialogue} />
+                <Dialogues dialogues={chapters[chapter]?.dialogues} selectedDialogue={dialogue} onSelectDialogue={setDialogue} onCreateDialogue={createDialog} />
                 <Languages selectedLanguage={language} onSelectLanguage={setLanguage} />
             </div>
             <div className="center" style={{textAlign: 'center'}}>
