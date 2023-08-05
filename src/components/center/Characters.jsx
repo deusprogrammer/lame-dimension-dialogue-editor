@@ -1,13 +1,35 @@
 import React from 'react';
 
-const component = ({dialogue, index}) => {
+import characters from '../../data/characters';
+
+const component = ({dialogue, index, onCharacterChange: onPositionChange}) => {
     if (!dialogue) {
         return <div className='characters'></div>
     }
 
-    let {positions} = dialogue.dialogue[index];
+    let {positions, active} = dialogue.dialogue[index];
 
-    console.log("POSITION: " + JSON.stringify(positions, null, 5));
+    const updatePositionName = (position, characterKey) => {
+        let dialogueCopy = {...dialogue.dialogue[index]};
+        let copy = {...dialogueCopy.positions};
+        copy[position].name = characterKey;
+        dialogueCopy.positions = copy;
+        onPositionChange(index, dialogueCopy);
+    }
+
+    const updatePositionOverride = (position, override) => {
+        let dialogueCopy = {...dialogue.dialogue[index]};
+        let copy = {...dialogueCopy.positions};
+        copy[position].override = override;
+        dialogueCopy.positions = copy;
+        onPositionChange(index, dialogueCopy);
+    }
+
+    const updateActivePosition = (position) => {
+        let dialogueCopy = {...dialogue.dialogue[index]};
+        dialogueCopy.active = position;
+        onPositionChange(index, dialogueCopy);
+    }
 
     return (
         <>
@@ -17,13 +39,19 @@ const component = ({dialogue, index}) => {
                     return (
                         <div>
                             <div>{position.toUpperCase()}</div>
-                            <div><input type='text' value={positions[position]?.name || 'none' } /></div>
-                            <div>override</div>
-                            <div><input type='text' value={positions[position]?.override || 'none'} /></div>
                             <div>
-                                <input type="checkbox" />Speaking
+                                <select onChange={({target: {value}}) => updatePositionName(position, value)} value={positions[position]?.name || 'none' }>
+                                    <option value='none'>none</option>
+                                    {Object.keys(characters).map(key => {
+                                        return <option value={key}>{characters[key].name}</option>
+                                    })}
+                                </select>
                             </div>
-                            <div>{positions[position]?.override}</div>
+                            <div>override</div>
+                            <div><input type='text' onChange={({target: {value}}) => {updatePositionOverride(position, value)}} value={positions[position]?.override || 'none'} /></div>
+                            <div>
+                                <input type="checkbox" checked={active === position} onChange={({target: {checked}}) => { if (checked && positions[position]?.name) updateActivePosition(position)}} disabled={!positions[position]?.name} />Speaking
+                            </div>
                         </div>
                     )
                 })}

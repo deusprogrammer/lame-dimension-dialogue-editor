@@ -23,9 +23,30 @@ function App() {
 
     const updateDialog = (index, entry) => {
         let copy = {...chapters};
-        console.log("ENTRY: " + JSON.stringify(entry, null, 5));
-        console.log("REPLACING: " + JSON.stringify(copy[chapter].dialogues[dialogue].dialogue[index], null, 5));
         copy[chapter].dialogues[dialogue].dialogue[index] = entry;
+        setChapters(copy);
+    }
+
+    const addDialog = (afterIndex) => {
+        let copy = {...chapters};
+        copy[chapter].dialogues[dialogue].dialogue.splice(afterIndex + 1, 0, {
+            positions: {
+                left: {},
+                leftFront: {},
+                rightFront: {},
+                right: {}
+            },
+            text: "",
+            active: "left",
+            emote: null
+        });
+        setDialogueIndex(afterIndex + 1);
+        setChapters(copy);
+    }
+
+    const storeDialogues = (newDialogs) => {
+        let copy = {...chapters};
+        copy[chapter].dialogues[dialogue].dialogue = newDialogs;
         setChapters(copy);
     }
 
@@ -43,8 +64,8 @@ function App() {
                 <h1>Dialog Editor</h1>
                 <DialogueMeta dialogueKey={dialogue} dialogue={chapters[chapter]?.dialogues[dialogue]} />
                 <TextBox dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
-                <Characters dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
-                <DialogueEditor dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogIndexChange={setDialogueIndex} onDialogChange={updateDialog} />
+                <Characters dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onCharacterChange={updateDialog} />
+                <DialogueEditor dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogueIndexChange={setDialogueIndex} onDialogueChange={updateDialog} onDialogueAdd={addDialog} onDialogueRearrange={storeDialogues} />
             </div>
             <div className="right">
                 <Option onChange={() => {}} />

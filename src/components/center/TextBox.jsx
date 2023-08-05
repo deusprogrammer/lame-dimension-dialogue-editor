@@ -27,7 +27,7 @@ const component = ({dialogue, index}) => {
         letterSpacing: 2,
     });
 
-    let speaker = dialogue.dialogue[index].positions[active].override || characters[dialogue.dialogue[index].positions[active].name]?.name;
+    let speaker = dialogue.dialogue[index].positions[active]?.override || characters[dialogue.dialogue[index].positions[active]?.name]?.name || 'none';
 
     return (
         <div>
