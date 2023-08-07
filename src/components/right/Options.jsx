@@ -1,25 +1,27 @@
 import React from 'react';
 
-const component = ({onChange}) => {
+const component = ({ onChange }) => {
     return (
-        <div className="options">
+        <div>
             <h2>Options</h2>
-            <table>
-                <tr>
-                    <td><input type='checkbox' /></td>
-                    <td>Smaller Portraits</td>
-                </tr>
-                <tr>
-                    <td><input type='checkbox' /></td>
-                    <td>Disable Portraits</td>
-                </tr>
-                <tr>
-                    <td><input type='checkbox' /></td>
-                    <td>Keep Black Bars</td>
-                </tr>
-            </table>
+            <div className="options"> 
+                <div>
+                    <input type="checkbox" />
+                    <label>Smaller Portraits</label>
+                </div>
+                
+                <div>
+                    <input type="checkbox" />
+                    <label>Disable Portraits</label>
+                </div>
+                
+                <div>
+                    <input type="checkbox" />
+                    <label>Keep Black Bars</label>
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default component;

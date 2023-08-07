@@ -1,4 +1,4 @@
-import Animation from '../Animation';
+import Animation from './Animation';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -6,26 +6,26 @@ const positionAdjustments = {
     left: {
         x: 0,
         y: 0,
-        from: 'left'
+        from: 'left',
     },
     leftfront: {
         x: 20,
         y: 0,
-        from: 'left'
+        from: 'left',
     },
     rightfront: {
         x: 20,
         y: 0,
-        from: 'right'
+        from: 'right',
     },
     right: {
         x: 0,
         y: 0,
-        from: 'right'
-    }
-}
+        from: 'right',
+    },
+};
 
-const Component = ({position, dialogue, active}) => {
+const Component = ({ position, dialogue, active }) => {
     const [fileList, setFileList] = useState([]);
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(0);
@@ -35,47 +35,31 @@ const Component = ({position, dialogue, active}) => {
         let directory = `${process.env.PUBLIC_URL}/sprites/${emote}/spr_${character}${emote}`;
         let spriteFile = `${directory}/spr_${character}${emote}.yy`;
 
+        console.log("SPRITE FILE: " + spriteFile);
+
         try {
             let response = await axios.get(spriteFile, {
                 headers: {
-                    Accept: "application/json"
-                }
+                    Accept: 'application/json',
+                },
             });
 
-            console.log("GOT RESPONSE");
+            let height = response.data.height;
+            let width = response.data.width;
+            let files = response.data.frames.map(({name}) => `${directory}/${name}.png`);
+            setHeight(height);
+            setWidth(width);
 
-            let filenamePattern = /\{"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"([0-9a-z-]+)",\},/
-            let heightPattern   = /"height": ([0-9]+),/
-            let widthPattern    = /"width": ([0-9]+),/
-
-            let files = [];
-            response.data.split('\n').forEach(line => {
-                let match = line.match(filenamePattern);
-                if (match) {
-                    files.push(`${directory}/${match[1]}.png`);
-                }
-
-                match = line.match(heightPattern);
-                if (match) {
-                    setHeight(match[1]);
-                }
-
-                match = line.match(widthPattern);
-                if (match) {
-                    setWidth(match[1]);
-                }
-            });
-
-            console.log("SET FILES: " + files.length);
+            console.log('SET FILES: ' + files.length);
 
             setFileList(files);
         } catch (e) {
-            console.error("MISSING TEXTURE: " + character);
+            console.error(e);
             setFileList([`${process.env.PUBLIC_URL}/seele.jpeg`]);
-            setWidth(516/4);
-            setHeight(1162/4);
+            setWidth(516 / 4);
+            setHeight(1162 / 4);
         }
-    }
+    };
 
     useEffect(() => {
         if (position && dialogue) {
@@ -91,7 +75,7 @@ const Component = ({position, dialogue, active}) => {
     }, [position, dialogue, active]);
 
     let x = 0;
-    let y = 480 - 70 - (height || 0);
+    let y = 360 - 70 - (height || 0);
     let flip = false;
 
     let adjustments = positionAdjustments[position];
@@ -105,16 +89,24 @@ const Component = ({position, dialogue, active}) => {
     return (
         <div
             style={{
-                position: "absolute",
+                position: 'absolute',
                 top: y,
                 left: x,
                 width,
-                height
+                height,
             }}
         >
-            <Animation flip={flip} isPlaying={isSpeaking} speed={100} label={position} images={fileList} width={width} height={height} />
+            <Animation
+                flip={flip}
+                isPlaying={isSpeaking}
+                speed={100}
+                label={position}
+                images={fileList}
+                width={width}
+                height={height}
+            />
         </div>
-    )
-}
+    );
+};
 
 export default Component;

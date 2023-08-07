@@ -1,22 +1,48 @@
 import React from 'react';
 
-import CharacterSprite from './CharacterSprite';
+import CharacterSprite from '../CharacterSprite';
 
-const Component = ({dialogue, index}) => {
-    if (!dialogue) {
-        return <></>
+const Component = ({ scene, index }) => {
+    if (!scene) {
+        return <></>;
     }
 
-    let {active} = dialogue.dialogue[index];
+    let { active } = scene.dialogue[index];
+
+    console.log("SCENE: " + JSON.stringify(scene.dialogue[index]));
 
     return (
-        <div style={{backgroundColor: "teal", margin: "auto", position: "relative", width: "640px", height: "410px"}}>
-            <CharacterSprite position='left' dialogue={dialogue.dialogue[index]} active={active} />
-            <CharacterSprite position='leftfront' dialogue={dialogue.dialogue[index]} active={active}/>
-            <CharacterSprite position='rightfront' dialogue={dialogue.dialogue[index]} active={active}/>
-            <CharacterSprite position='right' dialogue={dialogue.dialogue[index]} active={active}/>
+        <div
+            style={{
+                backgroundColor: 'teal',
+                margin: 'auto',
+                position: 'relative',
+                width: '640px',
+                height: `${290}px`,
+            }}
+        >
+            <CharacterSprite
+                position="left"
+                dialogue={scene.dialogue[index]}
+                active={active}
+            />
+            <CharacterSprite
+                position="leftfront"
+                dialogue={scene.dialogue[index]}
+                active={active}
+            />
+            <CharacterSprite
+                position="rightfront"
+                dialogue={scene.dialogue[index]}
+                active={active}
+            />
+            <CharacterSprite
+                position="right"
+                dialogue={scene.dialogue[index]}
+                active={active}
+            />
         </div>
-    )
-}
+    );
+};
 
-export default Component
+export default Component;
