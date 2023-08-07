@@ -1,6 +1,6 @@
 import React from 'react';
 
-const languages = ["EN", "ES", "JP", "FR", "BR", "CH"];
+const languages = ["en", "es", "jp", "fr", "br", "ch"];
 
 const component = ({onSelectLanguage, selectedLanguage}) => {
     return (
@@ -8,7 +8,7 @@ const component = ({onSelectLanguage, selectedLanguage}) => {
             <h2>Languages</h2>
             <div className="language-grid">
                 {languages.map(language => {
-                    return <div onClick={() => {onSelectLanguage(language)}} className={`selectable ${selectedLanguage === language ? "selected" : null}`}>{language}</div>
+                    return <div onClick={() => {onSelectLanguage(language)}} className={`selectable ${selectedLanguage === language ? "selected" : null}`}>{language.toUpperCase()}</div>
                 })}
             </div>
         </div>

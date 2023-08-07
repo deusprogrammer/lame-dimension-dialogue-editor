@@ -13,6 +13,15 @@ const component = ({dialogue, index, onCharacterChange: onPositionChange}) => {
         let dialogueCopy = {...dialogue.dialogue[index]};
         let copy = {...dialogueCopy.positions};
         copy[position].name = characterKey;
+        copy[position].emote = 'neutral';
+        dialogueCopy.positions = copy;
+        onPositionChange(index, dialogueCopy);
+    }
+
+    const updatePositionEmote = (position, emote) => {
+        let dialogueCopy = {...dialogue.dialogue[index]};
+        let copy = {...dialogueCopy.positions};
+        copy[position].emote = emote;
         dialogueCopy.positions = copy;
         onPositionChange(index, dialogueCopy);
     }
@@ -47,8 +56,16 @@ const component = ({dialogue, index, onCharacterChange: onPositionChange}) => {
                                     })}
                                 </select>
                             </div>
-                            <div>override</div>
+                            <div>Override</div>
                             <div><input type='text' onChange={({target: {value}}) => {updatePositionOverride(position, value)}} value={positions[position]?.override || 'none'} /></div>
+                            <div>Emote</div>
+                            <div>
+                                <select onChange={({target: {value}}) => {updatePositionEmote(position, value)}} value={positions[position]?.emote}>
+                                    {characters[positions[position]?.name]?.emotes.map(emote => {
+                                        return <option value={emote}>{emote}</option>
+                                    })}
+                                </select>
+                            </div>
                             <div>
                                 <input type="checkbox" checked={active === position} onChange={({target: {checked}}) => { if (checked && positions[position]?.name) updateActivePosition(position)}} disabled={!positions[position]?.name} />Speaking
                             </div>

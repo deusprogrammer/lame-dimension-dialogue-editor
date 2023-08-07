@@ -5,6 +5,7 @@ import Chapters from './components/left/Chapters';
 import Languages from './components/left/Languages';
 import Dialogues from './components/left/Dialogues';
 
+import CharacterSprites from './components/center/CharacterSprites';
 import TextBox from './components/center/TextBox';
 import Characters from './components/center/Characters';
 import DialogueMeta from './components/center/DialogueMeta';
@@ -17,7 +18,7 @@ import testChapters from './data/chapters';
 let dialogCounter = 0;
 
 function App() {
-    const [language, setLanguage] = useState("EN");
+    const [language, setLanguage] = useState("en");
     const [chapters, setChapters] = useState(testChapters);
     const [chapter, setChapter] = useState("");
     const [dialogue, setDialogue] = useState("");
@@ -86,11 +87,11 @@ function App() {
                 <Languages selectedLanguage={language} onSelectLanguage={setLanguage} />
             </div>
             <div className="center" style={{textAlign: 'center'}}>
-                <h1>Dialog Editor</h1>
                 <DialogueMeta dialogueKey={dialogue} dialogue={chapters[chapter]?.dialogues[dialogue]} />
-                <TextBox dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
+                <CharacterSprites dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
+                <TextBox language={language} dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} />
                 <Characters dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onCharacterChange={updateDialog} />
-                <DialogueEditor dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogueIndexChange={setDialogueIndex} onDialogueChange={updateDialog} onDialogueAdd={addDialog} onDialogueRearrange={storeDialogues} />
+                <DialogueEditor language={language} dialogue={chapters[chapter]?.dialogues[dialogue]} index={dialogueIndex} onDialogueIndexChange={setDialogueIndex} onDialogueChange={updateDialog} onDialogueAdd={addDialog} onDialogueRearrange={storeDialogues} />
             </div>
             <div className="right">
                 <Option onChange={() => {}} />

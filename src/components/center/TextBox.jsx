@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
-import { Stage, Container, Sprite, Text } from '@pixi/react';
+import { Stage, Container, Text, Graphics } from '@pixi/react';
 import * as PIXI from 'pixi.js'
 
 import characters from '../../data/characters';
 
-const component = ({dialogue, index}) => {
+const Component = ({dialogue, language, index}) => {
+    const draw = useCallback((g) => {
+        g.clear();
+        g.beginFill(0x0C0D0D);
+        g.drawRect(0, 0, 640, 70);
+        g.endFill();
+    }, []);
+
     if (!dialogue) {
         return <></>
     }
@@ -31,12 +38,11 @@ const component = ({dialogue, index}) => {
 
     return (
         <div>
-            <h2>Preview</h2>
-            <Stage width={640} height={70}>
-                <Sprite texture={PIXI.Texture.WHITE} tint={'#0C0D0D'} width={640} height={70} />
+            <Stage width={640} height={70} options={{backgroundColor: "teal"}}>
                 <Container x={0} y={0} width={640} height={70}>
+                    <Graphics x={0} y={0} width={640} height={70} draw={draw} />
                     <Text style={speakerStyle} x={10} y={5} text={speaker} anchor={{ x: 0, y: 0 }}/>
-                    <Text style={textStyle} x={10} y={25} text={text}  anchor={{ x: 0, y: 0 }}/>
+                    <Text style={textStyle} x={10} y={25} text={text[language]}  anchor={{ x: 0, y: 0 }}/>
                 </Container>
             </Stage>
             <br />
@@ -44,4 +50,4 @@ const component = ({dialogue, index}) => {
     )
 }
 
-export default component;
+export default Component;

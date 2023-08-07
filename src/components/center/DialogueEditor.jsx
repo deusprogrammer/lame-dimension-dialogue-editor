@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-const Component = ({dialogue, index, onDialogueIndexChange, onDialogueChange, onDialogueAdd, onDialogueRearrange}) => {
-    useEffect(() => {
-        console.log("DIALOG UPDATED");
-    }, [dialogue]);
-    
+const Component = ({dialogue, language, index, onDialogueIndexChange, onDialogueChange, onDialogueAdd, onDialogueRearrange}) => {
     if (!dialogue) {
         return <></>
+    }
+
+    const updateDialogueText = (index, language, value) => {
+        let entry = {...dialogue.dialogue[index]};
+        entry.text[language] = value;
+        onDialogueChange(index, entry);
     }
 
     const updateDialogue = (field, index, value) => {
@@ -37,7 +39,7 @@ const Component = ({dialogue, index, onDialogueIndexChange, onDialogueChange, on
                                     {dialogueIndex > 0 ? <><button tabIndex={dialogueIndex + dialogCount} onClick={() => {swapDialogues(index, index - 1)}}>Up</button><br /></> : null}
                                     {dialogueIndex < dialogue.dialogue.length - 1 ? <button tabIndex={dialogueIndex + 1 + dialogCount} onClick={() => {swapDialogues(index, index + 1)}}>Down</button>: null}
                                 </td>
-                                <td><textarea tabIndex={dialogueIndex + 1 + dialogCount * 2} className='editor-text' onFocus={() => {onDialogueIndexChange(dialogueIndex)}} onChange={({target: {value}}) => {updateDialogue('text', dialogueIndex, value)}} value={entry.text}></textarea></td>
+                                <td><textarea tabIndex={dialogueIndex + 1 + dialogCount * 2} className='editor-text' onFocus={() => {onDialogueIndexChange(dialogueIndex)}} onChange={({target: {value}}) => {updateDialogueText(dialogueIndex, language, value)}} value={entry.text[language]}></textarea></td>
                                 <td><textarea tabIndex={dialogueIndex + 1 + dialogCount * 3} className='editor-choice' onFocus={() => {onDialogueIndexChange(dialogueIndex)}} onChange={({target: {value}}) => {updateDialogue('choices', dialogueIndex, value.split('\n'))}} value={entry.choices?.join('\n')}></textarea></td>
                                 <td><button tabIndex={dialogueIndex + 1 + dialogCount * 4} onClick={() => {onDialogueAdd(index)}}>Add Below</button></td>
                             </tr>
