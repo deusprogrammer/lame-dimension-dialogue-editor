@@ -139,7 +139,7 @@ function App() {
                         index={sceneIndex}
                         onPositionChange={updateDialog} />
                 </div>
-                <Option onChange={() => {}} />
+                {scene ? <Option onChange={() => {}} /> : null}
                 <DialogueEditor
                     language={language}
                     defaultLanguage={defaultLanguage}
