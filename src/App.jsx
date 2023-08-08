@@ -19,6 +19,7 @@ let dialogCounter = 0;
 
 function App() {
     const [language, setLanguage] = useState('en');
+    const [defaultLanguage, setDefaultLanguage] = useState('en');
     const [chapters, setChapters] = useState(testChapters);
     const [chapter, setChapter] = useState('');
     const [scene, setScene] = useState('');
@@ -107,6 +108,8 @@ function App() {
                 <Languages
                     selectedLanguage={language}
                     onSelectLanguage={setLanguage}
+                    defaultLanguage={defaultLanguage}
+                    onSelectDefaultLanguage={setDefaultLanguage}
                 />
             </div>
             <div className="center" style={{ textAlign: 'center' }}>
@@ -126,6 +129,7 @@ function App() {
                             />
                             <TextBox
                                 language={language}
+                                defaultLanguage={defaultLanguage}
                                 scene={chapters[chapter]?.scenes[scene]}
                                 index={sceneIndex}
                             />
@@ -138,6 +142,7 @@ function App() {
                 <Option onChange={() => {}} />
                 <DialogueEditor
                     language={language}
+                    defaultLanguage={defaultLanguage}
                     scene={chapters[chapter]?.scenes[scene]}
                     index={sceneIndex}
                     onDialogueIndexChange={setSceneIndex}
