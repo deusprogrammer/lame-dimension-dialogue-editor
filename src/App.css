@@ -164,3 +164,12 @@ tr.selected:hover {
 select {
     width: 100%;
 }
+
+.key-value-table td {
+    text-align: left;
+}
+
+.key-value-table td:first-child {
+    font-weight: bolder;
+    background-color: gray;
+}

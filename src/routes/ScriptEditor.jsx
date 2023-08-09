@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import {useAtom} from 'jotai';
+import {toast} from 'react-toastify';
 
 import Chapters from '../components/left/Chapters';
 import Languages from '../components/left/Languages';
@@ -12,22 +14,58 @@ import DialogueEditor from '../components/center/DialogueEditor';
 
 import Option from '../components/right/Options';
 import characters from '../data/characters';
+import userAtom from '../atoms/User.atom';
 
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 
 let dialogCounter = 0;
+let interval;
 
 function App() {
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
+    const [script, setScript] = useState({});
     const [chapters, setChapters] = useState({});
     const [chapter, setChapter] = useState('');
     const [scene, setScene] = useState('');
     const [sceneIndex, setSceneIndex] = useState(0);
+    const [user] = useAtom(userAtom);
     const navigate = useNavigate();
     const { id } = useParams();
     const jwtToken = localStorage.getItem('jwtToken');
+
+    const save = async () => {
+        if (!chapters || chapters === {}) {
+            return;
+        }
+
+        try {
+            await axios.put(`http://localhost:8080/scripts/${id}`, {...script, chapters}, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+            toast.info("Script Saved");
+        } catch (e) {
+            console.error(e);
+            navigate(`/login`);
+        }
+    }
+
+    const merge = async () => {
+        try {
+            await axios.put(`http://localhost:8080/scripts/${id}?merge`, {...script, chapters}, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+            toast.info("Script Saved on Root");
+        } catch (e) {
+            console.error(e);
+            navigate(`/login`);
+        }
+    }
 
     const loadScript = async () => {
         try {
@@ -38,6 +76,7 @@ function App() {
             });
 
             setChapters(res.data.chapters);
+            setScript(res.data);
         } catch (e) {
             console.error(e);
             navigate(`/login`);
@@ -46,6 +85,12 @@ function App() {
 
     useEffect(() => {
         loadScript();
+
+        if (interval) {
+            clearInterval(interval);
+        }
+
+        // interval = setInterval(save, 30000);
     }, []);
 
     const updateDialog = (index, entry) => {
@@ -116,6 +161,21 @@ function App() {
     return (
         <div className="container">
             <div className="left">
+                <h2>Script Metadata</h2>
+                <div>
+                    <table className="key-value-table">
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>{script.name}</td>
+                            </tr>
+                            <tr>
+                                <td>Editor</td>
+                                <td>{script.editor}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <Chapters
                     onChapterSelect={setChapter}
                     onCreateChapter={addChapter}
@@ -134,6 +194,13 @@ function App() {
                     defaultLanguage={defaultLanguage}
                     onSelectDefaultLanguage={setDefaultLanguage}
                 />
+                <h2>Actions</h2>
+                <button onClick={save}>
+                    Save
+                </button>
+                {user?.roles?.includes('ADMIN') ? <button onClick={merge}>
+                    Merge
+                </button> : null}
                 <button
                     onClick={() => {
                         navigator.clipboard.writeText(
@@ -146,6 +213,7 @@ function App() {
                                 5
                             )
                         );
+                        toast.info("JSON Payload Copied to Clipboard");
                     }}
                 >
                     Take a Dump
