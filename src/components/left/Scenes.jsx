@@ -1,11 +1,6 @@
 import React from 'react';
 
-const component = ({
-    scenes,
-    selectedScene,
-    onSelectScene,
-    onCreateScene,
-}) => {
+const component = ({ scenes, selectedScene, onSelectScene, onCreateScene }) => {
     if (!scenes) {
         return <div className="dialogues"></div>;
     }

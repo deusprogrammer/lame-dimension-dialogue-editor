@@ -35,7 +35,7 @@ const Component = ({ position, dialogue, active }) => {
         let directory = `${process.env.PUBLIC_URL}/sprites/${emote}/spr_${character}${emote}`;
         let spriteFile = `${directory}/spr_${character}${emote}.yy`;
 
-        console.log("SPRITE FILE: " + spriteFile);
+        console.log('SPRITE FILE: ' + spriteFile);
 
         try {
             let response = await axios.get(spriteFile, {
@@ -46,7 +46,9 @@ const Component = ({ position, dialogue, active }) => {
 
             let height = response.data.height;
             let width = response.data.width;
-            let files = response.data.frames.map(({name}) => `${directory}/${name}.png`);
+            let files = response.data.frames.map(
+                ({ name }) => `${directory}/${name}.png`
+            );
             setHeight(height);
             setWidth(width);
 

@@ -2,7 +2,12 @@ import React from 'react';
 
 const languages = ['en', 'es', 'jp', 'fr', 'br', 'ch'];
 
-const component = ({ onSelectLanguage, onSelectDefaultLanguage, selectedLanguage, defaultLanguage }) => {
+const component = ({
+    onSelectLanguage,
+    onSelectDefaultLanguage,
+    selectedLanguage,
+    defaultLanguage,
+}) => {
     return (
         <div className="languages">
             <h2>Languages</h2>
@@ -25,9 +30,18 @@ const component = ({ onSelectLanguage, onSelectDefaultLanguage, selectedLanguage
                 })}
             </div>
             <label>Default Language</label>
-            <select value={defaultLanguage} onChange={({target: {value}}) => onSelectDefaultLanguage(value)}>
-                {languages.map(language => {
-                    return <option value={language}>{language.toUpperCase()}</option>
+            <select
+                value={defaultLanguage}
+                onChange={({ target: { value } }) =>
+                    onSelectDefaultLanguage(value)
+                }
+            >
+                {languages.map((language) => {
+                    return (
+                        <option value={language}>
+                            {language.toUpperCase()}
+                        </option>
+                    );
                 })}
             </select>
         </div>

@@ -26,15 +26,15 @@ function App() {
     const [scene, setScene] = useState('');
     const [sceneIndex, setSceneIndex] = useState(0);
     const navigate = useNavigate();
-    const {id} = useParams();
+    const { id } = useParams();
     const jwtToken = localStorage.getItem('jwtToken');
 
     const loadScript = async () => {
         try {
             let res = await axios.get(`http://localhost:8080/scripts/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
-                }
+                    Authorization: `Bearer ${jwtToken}`,
+                },
             });
 
             setChapters(res.data.chapters);
@@ -42,7 +42,7 @@ function App() {
             console.error(e);
             navigate(`/login`);
         }
-    }
+    };
 
     useEffect(() => {
         loadScript();
@@ -134,12 +134,20 @@ function App() {
                     defaultLanguage={defaultLanguage}
                     onSelectDefaultLanguage={setDefaultLanguage}
                 />
-                <button onClick={() => {
-                    navigator.clipboard.writeText(JSON.stringify({
-                        characters,
-                        chapters
-                    }, null, 5));
-                }}>
+                <button
+                    onClick={() => {
+                        navigator.clipboard.writeText(
+                            JSON.stringify(
+                                {
+                                    characters,
+                                    chapters,
+                                },
+                                null,
+                                5
+                            )
+                        );
+                    }}
+                >
                     Take a Dump
                 </button>
             </div>
@@ -149,26 +157,30 @@ function App() {
                     scene={chapters[chapter]?.scenes[scene]}
                 />
                 <div className="preview">
-                    <Characters side="left" 
+                    <Characters
+                        side="left"
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
-                        onPositionChange={updateDialog} />
-                        <div>
-                            <CharacterSprites
-                                scene={chapters[chapter]?.scenes[scene]}
-                                index={sceneIndex}
-                            />
-                            <TextBox
-                                language={language}
-                                defaultLanguage={defaultLanguage}
-                                scene={chapters[chapter]?.scenes[scene]}
-                                index={sceneIndex}
-                            />
-                        </div>
-                    <Characters side="right" 
+                        onPositionChange={updateDialog}
+                    />
+                    <div>
+                        <CharacterSprites
+                            scene={chapters[chapter]?.scenes[scene]}
+                            index={sceneIndex}
+                        />
+                        <TextBox
+                            language={language}
+                            defaultLanguage={defaultLanguage}
+                            scene={chapters[chapter]?.scenes[scene]}
+                            index={sceneIndex}
+                        />
+                    </div>
+                    <Characters
+                        side="right"
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
-                        onPositionChange={updateDialog} />
+                        onPositionChange={updateDialog}
+                    />
                 </div>
                 {scene ? <Option onChange={() => {}} /> : null}
                 <DialogueEditor
@@ -182,8 +194,7 @@ function App() {
                     onDialogueRearrange={storeDialogues}
                 />
             </div>
-            <div className="right">
-            </div>
+            <div className="right"></div>
         </div>
     );
 }

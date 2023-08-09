@@ -101,8 +101,16 @@ const Component = ({
                                         }}
                                         value={entry.text[language]}
                                     ></textarea>
-                                    <pre style={{textAlign: "left", padding: "0px", margin: "0px", color: "white"}}>
-                                        <b>{defaultLanguage.toUpperCase()}</b>: {entry.text[defaultLanguage]}
+                                    <pre
+                                        style={{
+                                            textAlign: 'left',
+                                            padding: '0px',
+                                            margin: '0px',
+                                            color: 'white',
+                                        }}
+                                    >
+                                        <b>{defaultLanguage.toUpperCase()}</b>:{' '}
+                                        {entry.text[defaultLanguage]}
                                     </pre>
                                 </td>
                                 <td>
